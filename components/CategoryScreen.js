@@ -31,6 +31,15 @@ const selections = [
     ],
   },
   {
+    selection: 'tv_cooking',
+    options: [
+      'Chopped',
+      'Worst Cooks in America',
+      'Final Table',
+      'Cut Throat Kitchen',
+    ],
+  },
+  {
     selection: 'movie_epic_saga',
     options: [
       'The Hobbit: The Trilogy',
@@ -53,6 +62,15 @@ const selections = [
     options: [],
   },
   {
+    selection: 'movie_scary',
+    options: [
+      'Bird Box',
+      'Silence of the Lambs',
+      'Hocus Pocus',
+      'The Shining',
+    ],
+  },
+  {
     selection: 'movie_drama',
     options: [],
   },
@@ -64,7 +82,6 @@ export default class CategoryScreen extends Component {
       title: `${navigation.getParam('selectionType', 'Unknown')}: ${navigation.getParam('selectionTitle', 'Category')}`,
       headerStyle: { backgroundColor: theme.backgroundColor },
       headerTintColor: '#fff',
-      headerTitleStyle: { fontWeight: 'bold' },
     };
   };
   render() {
@@ -96,5 +113,5 @@ export default class CategoryScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  
+
 });

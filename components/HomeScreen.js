@@ -15,6 +15,7 @@ export default class HomeScreen extends Component {
       isOverlayVisible: true,
     }
   }
+
   async componentWillMount() {
     await Font.loadAsync({
       AbrilFatface: require('../assets/fonts/AbrilFatface-Regular.ttf'),
@@ -22,6 +23,18 @@ export default class HomeScreen extends Component {
     });
     this.setState({ fontLoaded: true });
   }
+
+  async componentDidMount() {
+    try {
+      const response = await fetch(`${process.env.TMDB_BASE_AND_VERSION}/configuration${process.env.TMDB_API_KEY_PARAM}`)
+      const json = await response.json()
+      console.log(json)
+      // set state with this config ^
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'I want my BBTV 👩🏽‍🎤',
@@ -29,6 +42,7 @@ export default class HomeScreen extends Component {
       headerTintColor: '#fff',
     };
   };
+
   render() {
     const { navigate } = this.props.navigation;
     if (this.state.fontLoaded) {

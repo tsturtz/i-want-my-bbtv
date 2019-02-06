@@ -45,6 +45,14 @@ const categoriesList = [
     iconType: 'material-community',
   },
   {
+    title: 'Animated',
+    top_level_category: false,
+    type: 'Movie',
+    value: 'movie_animated',
+    icon: 'clippy',
+    iconType: 'material-community',
+  },
+  {
     title: 'Comedy',
     top_level_category: false,
     type: 'Movie',

@@ -14,3 +14,4 @@ _A mobile app for my wife (and me sometimes)_ 🙃: randomly choose which of our
 - [ ] Some DB solution for storing and manipulating content
 - [ ] Add items and delete items. **Adding items should be based on TMDb autocomplete as a means of validation)**
 - [ ] perpetually add more tv and movies
+- [ ] truncate overview based on number of lines

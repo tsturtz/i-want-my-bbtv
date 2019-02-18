@@ -157,6 +157,8 @@ export default class CategoryScreen extends Component {
           }
         ).start()
       })
+    } else {
+      this.setState({ errorState: 'There was a problem fetching the selected title.' })
     }
   }
 
@@ -308,7 +310,11 @@ export default class CategoryScreen extends Component {
         {!!errorState && (
           <Overlay
             isVisible={!!errorState}
-            onBackdropPress={() => { this.setState({ errorState: '' }) }}
+            onBackdropPress={() => {
+              this.setState({ errorState: '' }, () => {
+                navigate('Home');
+              });
+            }}
             overlayStyle={{
               alignItems: 'center',
               justifyContent: 'center',
@@ -320,7 +326,11 @@ export default class CategoryScreen extends Component {
               <Button
                 buttonStyle={{ backgroundColor: '#2b2b2b', borderRadius: 0, height: 50, width: 150, marginHorizontal: 15, marginVertical: 30 }}
                 title='Okay'
-                onPress={() => this.setState({ errorState: '' })}
+                onPress={() => {
+                  this.setState({ errorState: '' }, () => {
+                    navigate('Home');
+                  });
+                }}
               />
             </Fragment>
           </Overlay>

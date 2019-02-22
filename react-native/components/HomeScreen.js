@@ -71,6 +71,7 @@ export default class HomeScreen extends Component {
               <Text style={{ fontFamily: theme.fancyFont, fontSize: 30, textAlign: 'center', marginBottom: 20 }}>What am I missing?</Text>
               <Text style={{ fontFamily: theme.bodyFont, fontSize: 14, textAlign: 'center', marginBottom: 20 }}>Can you help me fill in missing stuff?</Text>
               <Button
+                titleStyle={{ fontFamily: theme.bodyFont, lineHeight: 20 }}
                 buttonStyle={{ width: 100, height: 50 }}
                 title="Cool"
                 onPress={() => {

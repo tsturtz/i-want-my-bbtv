@@ -14,6 +14,8 @@ exports.getAllSelections = (req, res) => {
     res.status(200).json(selection);
   });
 };
+// TODO: GET /selections/:selection
+
 
 // POST /selections/option
 // example request body:

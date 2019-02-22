@@ -3,10 +3,12 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Font, AppLoading } from 'expo';
 
 import HomeScreen from './components/HomeScreen';
+import SelectionScreen from './components/SelectionScreen';
 import CategoryScreen from './components/CategoryScreen';
 
 const MainNavigator = createStackNavigator({
   Home: { screen: HomeScreen },
+  Selection: { screen: SelectionScreen },
   Category: { screen: CategoryScreen },
 });
 

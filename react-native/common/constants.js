@@ -6,6 +6,10 @@ export const suggestSelectionText = [
   'Here\'s an option 👀',
   'Try this?',
   'Maybe this...',
+  'Tickle your fancy?',
+  'Yay or nay?',
+  'What say you?!',
+  'Perhaps...',
 ]
 
 

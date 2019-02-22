@@ -39,6 +39,13 @@ export default class Categories extends Component {
                 disabled={item.top_level_category}
                 title={item.title}
                 onPress={() => {
+                  navigate('Selection', {
+                    selectionValue: item.value,
+                    selectionTitle: item.title,
+                    selectionType: item.type,
+                  })
+                }}
+                onLongPress={() => {
                   navigate('Category', {
                     selectionValue: item.value,
                     selectionTitle: item.title,

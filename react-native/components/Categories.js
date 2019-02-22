@@ -6,6 +6,15 @@ import { theme } from '../theme';
 import { categoriesList } from '../common/constants';
 
 export default class Categories extends React.Component {
+  // async componentDidMount() {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/categories')
+  //     const json = await response.json()
+  //     console.log(json)
+  //   } catch (err) {
+  //     console.warn(err)
+  //   }
+  // }
   render() {
     const { navigate } = this.props;
     return (

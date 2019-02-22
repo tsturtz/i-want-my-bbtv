@@ -4,7 +4,8 @@ export const suggestSelectionText = [
   'You could watch...',
   'What do you say?',
   'Here\'s an option 👀',
-  'Try this!',
+  'Try this?',
+  'Maybe this...',
 ]
 
 export const categoriesList = [
@@ -12,6 +13,8 @@ export const categoriesList = [
   {
     title: 'TV',
     top_level_category: true,
+    type: null,
+    value: null,
     icon: 'television-classic',
     iconType: 'material-community',
   },
@@ -51,6 +54,8 @@ export const categoriesList = [
   {
     title: 'Movies',
     top_level_category: true,
+    type: null,
+    value: null,
     icon: 'filmstrip',
     iconType: 'material-community',
   },

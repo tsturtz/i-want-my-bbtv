@@ -6,7 +6,7 @@ import { theme } from '../theme';
 
 import Categories from './Categories';
 
-class Title extends React.Component {
+class Title extends Component {
   render() {
     const { navigation } = this.props;
     return (
@@ -36,7 +36,7 @@ export default class HomeScreen extends Component {
     try {
       const response = await fetch(`${process.env.TMDB_BASE_AND_VERSION}/configuration${process.env.TMDB_API_KEY_PARAM}`)
       const json = await response.json()
-      // console.log(json)
+      // console.log('TMDB LOG:', json)
       // set state with this config ^
     } catch (err) {
       console.warn(err)

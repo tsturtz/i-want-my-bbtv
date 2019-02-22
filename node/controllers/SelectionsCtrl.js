@@ -7,7 +7,7 @@ const badlyFormattedError = {
 
 // GET /selections
 exports.getAllSelections = (req, res) => {
-  Selections.find({}, (err, selection) => {
+  Selections.find({}, '-_id', (err, selection) => {
     if (err) {
       res.status(500).send(err);
     }

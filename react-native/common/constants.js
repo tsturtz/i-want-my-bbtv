@@ -8,7 +8,10 @@ export const suggestSelectionText = [
   'Maybe this...',
 ]
 
-export const categoriesList = [
+
+// ----------------------------------------------------------
+// Not using this, but keeping a record for now in this file.
+const categoriesList = [
   // Television
   {
     title: 'TV',
@@ -125,7 +128,7 @@ export const categoriesList = [
   },
 ]
 
-export const selections = [
+export const selectionsList = [
   // TV
   {
     selection: 'tv_comedy',

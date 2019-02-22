@@ -3,9 +3,9 @@ import { StyleSheet, ScrollView, View, Animated, Easing, Dimensions, ActivityInd
 import { Text, Button, ListItem, Card, Icon, Rating, Image, Overlay } from 'react-native-elements';
 
 import { theme } from '../theme';
-import { selections, suggestSelectionText } from '../common/constants';
+import { suggestSelectionText } from '../common/constants';
 
-class Title extends React.Component {
+class Title extends Component {
   render() {
     const { navigation } = this.props;
     return (
@@ -26,16 +26,14 @@ export default class CategoryScreen extends Component {
   constructor(props) {
     super(props);
 
-    const selected = selections.find((sel) => sel.selection === this.props.navigation.getParam('selectionValue', 'default_value')).options;
-    const random = selected[Math.floor(Math.random() * selected.length)];
-
     this.state = {
+      selectionsList: null,
       errorState: '',
       selectionValue: this.props.navigation.getParam('selectionValue', 'default_value'),
       selectionTitle: this.props.navigation.getParam('selectionTitle', 'Category'),
       selectionType: this.props.navigation.getParam('selectionType', 'Unknown'),
-      selectedList: selected,
-      randomItem: random,
+      selectedList: null,
+      randomItem: null,
       selectedItemName: 'Not found',
       selectedItemImage: 'Not found',
       selectedItemOverview: 'Not found',
@@ -49,6 +47,25 @@ export default class CategoryScreen extends Component {
     this.spinValue = new Animated.Value(0)
     this.selectorValue = new Animated.Value(0)
   }
+  async componentWillMount() {
+    try {
+      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections`)
+      const json = await response.json()
+      // console.log('BBTV LOG:', json)
+      console.log('success: got selections')
+      const selected = json.find((sel) => sel.selection === this.props.navigation.getParam('selectionValue', 'default_value')).options;
+      const random = selected[Math.floor(Math.random() * selected.length)];
+      this.setState({
+        selectionsList: json,
+        selectedList: selected,
+        randomItem: random,
+      }, () => {
+        this.animate(random)
+      })
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -58,13 +75,6 @@ export default class CategoryScreen extends Component {
       // title: `${navigation.getParam('selectionType', 'Unknown')}: ${navigation.getParam('selectionTitle', 'Category')}`,
       // headerTintColor: '#fff',
     }
-  }
-
-  componentDidMount() {
-    const randomItem = this.state.selectedList[Math.floor(Math.random() * this.state.selectedList.length)];
-    this.setState({ randomItem }, () => {
-      this.animate(randomItem)
-    });
   }
 
   animate = (item) => {
@@ -188,6 +198,7 @@ export default class CategoryScreen extends Component {
       selectedItemFirstAirDate,
       selectedItemVoteAverage,
       showSpinner,
+      selectionsList,
     } = this.state;
     const {
       navigation,

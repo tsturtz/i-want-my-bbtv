@@ -12,8 +12,6 @@ export default class Categories extends Component {
     try {
       const response = await fetch(`${process.env.BBTV_API_BASE_URL}/categories`)
       const json = await response.json()
-      // console.log('BBTV LOG:', json)
-      console.log('success: got categories')
       this.setState({ categoriesList: json })
     } catch (err) {
       console.warn(err)
@@ -31,6 +29,7 @@ export default class Categories extends Component {
               <ListItem
                 key={idx}
                 containerStyle={item.top_level_category ? { backgroundColor: '#f9f9f9' } : {}}
+                underlayColor='#b285cc80'
                 titleStyle={{ fontFamily: theme.bodyFont }}
                 bottomDivider
                 rightIcon={item.top_level_category ? { name: item.icon, type: item.iconType } : null}

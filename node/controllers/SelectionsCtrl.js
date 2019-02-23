@@ -14,8 +14,15 @@ exports.getAllSelections = (req, res) => {
     res.status(200).json(selection);
   });
 };
-// TODO: GET /selections/:selection
-
+// GET /selections/:selection
+exports.getSelection = (req, res) => {
+  Selections.find({ selection: req.params.selection }, '-_id', (err, selection) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.status(200).json(selection);
+  });
+};
 
 // POST /selections/option
 // example request body:

@@ -49,11 +49,9 @@ export default class SelectionScreen extends Component {
   }
   async componentWillMount() {
     try {
-      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections`)
+      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections/${this.props.navigation.getParam('selectionValue')}`)
       const json = await response.json()
-      // console.log('BBTV LOG:', json)
-      console.log('success: got selections')
-      const selected = json.find((sel) => sel.selection === this.props.navigation.getParam('selectionValue', 'default_value')).options;
+      const selected = json[0].options;
       const random = selected[Math.floor(Math.random() * selected.length)];
       this.setState({
         selectionsList: json,
@@ -292,7 +290,7 @@ export default class SelectionScreen extends Component {
               />
               <Button
                 titleStyle={{ fontFamily: theme.bodyFont, lineHeight: 20 }}
-                buttonStyle={{ backgroundColor: '#2b2b2b', borderRadius: 0, height: 50, width: ((Dimensions.get('window').width / 2) - 30), marginHorizontal: 15, marginVertical: 30 }}
+                buttonStyle={{ backgroundColor: theme.primaryColor, borderRadius: 0, height: 50, width: ((Dimensions.get('window').width / 2) - 30), marginHorizontal: 15, marginVertical: 30 }}
                 icon={<Icon name='loop' color='#ffffff' />}
                 title=' Nah'
                 onPress={() => { this.spinAgain(randomItem) }}
@@ -309,6 +307,7 @@ export default class SelectionScreen extends Component {
                 return (
                   <ListItem
                     key={idx}
+                    underlayColor='#b285cc80'
                     title={option}
                     titleStyle={{ fontFamily: theme.bodyFont }}
                     bottomDivider

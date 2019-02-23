@@ -6,16 +6,24 @@ import { theme } from '../theme';
 
 export default class Titles extends Component {
   render() {
-    const { navigate, titles } = this.props;
+    const { navigate, titles, handleTitleSelect, adding } = this.props;
     return (
       <ScrollView style={styles.container}>
         {
-          titles.map((title, idx) => (
+          titles.sort().map((title, idx) => (
             <ListItem
               key={idx}
               titleStyle={{ fontFamily: theme.bodyFont }}
+              containerStyle={adding ? { backgroundColor: '#b285cc1a' } : {}}
+              underlayColor='#b285cc80'
               bottomDivider
               title={title}
+              onPress={() => {
+                if (adding) {
+                  handleTitleSelect(title)
+                }
+              }}
+              onLongPress={() => handleTitleSelect(title)}
             />
           ))
         }

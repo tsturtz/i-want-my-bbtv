@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
-import { Button, Overlay, Text, Image } from 'react-native-elements';
+import { Button, Text, Image } from 'react-native-elements';
 
 import { theme } from '../theme';
 
@@ -25,19 +25,12 @@ class Title extends Component {
 }
 
 export default class HomeScreen extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isOverlayVisible: true,
-    }
-  }
-
   async componentDidMount() {
     try {
       const response = await fetch(`${process.env.TMDB_BASE_AND_VERSION}/configuration${process.env.TMDB_API_KEY_PARAM}`)
       const json = await response.json()
       // console.log('TMDB LOG:', json)
-      // set state with this config ^
+      // TODO: set state with this config for images n stuff ^
     } catch (err) {
       console.warn(err)
     }
@@ -58,28 +51,6 @@ export default class HomeScreen extends Component {
     return (
       <ScrollView style={styles.container}>
         <Fragment>
-          {/* <Overlay
-            overlayStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 300,
-            }}
-            isVisible={this.state.isOverlayVisible}
-            onBackdropPress={() => this.setState({ isOverlayVisible: false })}
-          >
-            <Fragment>
-              <Text style={{ fontFamily: theme.fancyFont, fontSize: 30, textAlign: 'center', marginBottom: 20 }}>What am I missing?</Text>
-              <Text style={{ fontFamily: theme.bodyFont, fontSize: 14, textAlign: 'center', marginBottom: 20 }}>Can you help me fill in missing stuff?</Text>
-              <Button
-                titleStyle={{ fontFamily: theme.bodyFont, lineHeight: 20 }}
-                buttonStyle={{ width: 100, height: 50 }}
-                title="Cool"
-                onPress={() => {
-                  this.setState({ isOverlayVisible: false })
-                }}
-              />
-            </Fragment>
-          </Overlay> */}
           <View style={{
             flex: 1,
             alignItems: 'center',

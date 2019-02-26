@@ -54,6 +54,9 @@ export default class Categories extends Component {
               />
             ))
           }
+          <Text style={{ fontFamily: theme.bodyFont, fontSize: 15, lineHeight: 30, paddingHorizontal: 15, paddingBottom: 20, color: theme.primaryColor, marginTop: 20 }}>
+            (Long-press to manage categories)
+          </Text>
         </ScrollView>
       );
     } else {

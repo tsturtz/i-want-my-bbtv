@@ -148,12 +148,15 @@ export default class HomeScreen extends Component {
               <Fragment>
                 <Titles navigate={navigate} titles={addOptions.map((opt) => opt.name)} handleTitleSelect={this.handleAddSelected} adding />
                 <Text style={{ fontFamily: theme.bodyFont, fontSize: 15, lineHeight: 30, paddingHorizontal: 15, paddingBottom: 20, color: theme.primaryColor }}>
-                  (Tap the titles above to add)
+                  (Tap items above to add)
                 </Text>
                 <Divider />
               </Fragment>
             }
             <Titles navigate={navigate} titles={titles} handleTitleSelect={this.handleDeletedSelected} />
+            <Text style={{ fontFamily: theme.bodyFont, fontSize: 15, lineHeight: 30, paddingHorizontal: 15, paddingBottom: 20, color: theme.primaryColor }}>
+              (Tap items above to delete)
+            </Text>
             <View style={{
               flex: 1,
               flexDirection: 'row',

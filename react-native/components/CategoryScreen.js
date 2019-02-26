@@ -29,7 +29,7 @@ class Title extends Component {
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.queryTMDb = debounce(this.queryTMDb, 1000);
+    this.queryTMDb = debounce(this.queryTMDb, 300);
   }
 
   state = {
@@ -43,7 +43,7 @@ export default class HomeScreen extends Component {
 
   async componentWillMount() {
     try {
-      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections/${this.props.navigation.getParam('selectionValue')}`)
+      const response = await fetch(`${process.env.BBTV_BASE_URL}/selections/${this.props.navigation.getParam('selectionValue')}`)
       const json = await response.json()
       this.setState({ titles: json[0].options })
     } catch (err) {
@@ -68,9 +68,10 @@ export default class HomeScreen extends Component {
     const data = {
       selection: this.props.navigation.getParam('selectionValue'),
       option: title,
+      key: process.env.BBTV_KEY,
     }
     try {
-      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections/option`, {
+      const response = await fetch(`${process.env.BBTV_BASE_URL}/selections/option`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -81,6 +82,8 @@ export default class HomeScreen extends Component {
           titles: json.payload.options,
           addOptions: [],
           isAddOverlayVisible: false,
+        }, () => {
+          this.textInput.clear();
         })
       } else {
         this.setState({
@@ -133,17 +136,15 @@ export default class HomeScreen extends Component {
               {getParam('selectionType')}: {getParam('selectionTitle')}
             </Text>
             <Input
-              placeholder=' Add a title...'
+              ref={(input) => { this.textInput = input }}
+              autoComplete="off"
+              placeholder={'Add a title...'}
               leftIcon={{ name: 'plus', type: 'material-community' }}
-              onChangeText={(text) => {
-                if (text.length > 0) {
-                  this.queryTMDb(text)
-                } else {
-                  this.setState({ addOptions: [] })
-                }
-              }}
+              leftIconContainerStyle={{ paddingRight: 10 }}
+              onChangeText={(text) => { this.queryTMDb(text) }}
+              onSubmitEditing={(text) => { this.queryTMDb(text.nativeEvent.text) }}
             />
-            {addOptions.length > 0 &&
+            {addOptions && addOptions.length > 0 &&
               <Fragment>
                 <Titles navigate={navigate} titles={addOptions.map((opt) => opt.name)} handleTitleSelect={this.handleAddSelected} adding />
                 <Text style={{ fontFamily: theme.bodyFont, fontSize: 15, lineHeight: 30, paddingHorizontal: 15, paddingBottom: 20, color: theme.primaryColor }}>
@@ -237,16 +238,15 @@ export default class HomeScreen extends Component {
                       const data = {
                         selection: getParam('selectionValue'),
                         option: removeOption,
+                        key: process.env.BBTV_KEY,
                       }
-                      console.log('delete request body ->', data)
                       try {
-                        const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections/option`, {
+                        const response = await fetch(`${process.env.BBTV_BASE_URL}/selections/option`, {
                           method: 'DELETE',
                           headers: {'Content-Type': 'application/json'},
                           body: JSON.stringify(data)
                         })
                         const json = await response.json()
-                        console.log('response from delete option ->', json)
                         if (json.status) {
                           this.setState({
                             isDeleteOverlayVisible: false,

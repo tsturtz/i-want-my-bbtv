@@ -18,12 +18,8 @@ export default class Titles extends Component {
               underlayColor='#b285cc80'
               bottomDivider
               title={title}
-              onPress={() => {
-                if (adding) {
-                  handleTitleSelect(title)
-                }
-              }}
-              onLongPress={() => handleTitleSelect(title)}
+              onPress={() => { handleTitleSelect(title) }}
+              onLongPress={() => { handleTitleSelect(title) }}
             />
           ))
         }

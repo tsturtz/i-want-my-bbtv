@@ -10,7 +10,7 @@ export default class Categories extends Component {
   }
   async componentWillMount() {
     try {
-      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/categories`)
+      const response = await fetch(`${process.env.BBTV_BASE_URL}/categories`)
       const json = await response.json()
       this.setState({ categoriesList: json })
     } catch (err) {

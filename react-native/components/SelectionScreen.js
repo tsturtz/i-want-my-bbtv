@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { StyleSheet, ScrollView, View, Animated, Easing, Dimensions, ActivityIndicator } from 'react-native';
-import { Text, Button, ListItem, Card, Icon, Rating, Image, Overlay } from 'react-native-elements';
+import { StyleSheet, ScrollView, View, Animated, Easing } from 'react-native';
+import { Text, Button, ListItem, Image, Overlay } from 'react-native-elements';
 
 import { theme } from '../theme';
-import { suggestSelectionText } from '../common/constants';
+import Selection from './Selection';
 
 class Title extends Component {
   render() {
@@ -43,13 +43,14 @@ export default class SelectionScreen extends Component {
     };
 
     this.showSpinner = new Animated.Value(1)
-    this.showItem = new Animated.Value(0)
-    this.spinValue = new Animated.Value(0)
-    this.selectorValue = new Animated.Value(0)
+    this.showItem = new Animated.Value(0.01)
+    this.spinValue = new Animated.Value(0.01)
+    this.selectorValue = new Animated.Value(0.01)
   }
+
   async componentWillMount() {
     try {
-      const response = await fetch(`${process.env.BBTV_API_BASE_URL}/selections/${this.props.navigation.getParam('selectionValue')}`)
+      const response = await fetch(`${process.env.BBTV_BASE_URL}/selections/${this.props.navigation.getParam('selectionValue')}`)
       const json = await response.json()
       const selected = json[0].options;
       const random = selected[Math.floor(Math.random() * selected.length)];
@@ -74,6 +75,8 @@ export default class SelectionScreen extends Component {
       // headerTintColor: '#fff',
     }
   }
+
+  ticker = null;
 
   animate = (item) => {
     this.showSpinner.setValue(1)
@@ -100,7 +103,6 @@ export default class SelectionScreen extends Component {
           useNativeDriver: true,
         }
       ).start(() => {
-        this.setState({ showSpinner: false })
         this.initSelected(item)
       })
     })
@@ -124,8 +126,9 @@ export default class SelectionScreen extends Component {
       if (dur < 300) {
         this.animateSelector(val === 0 ? 1 : 0, dur + (dur / 3))
       } else {
-        setTimeout(() => {
+        this.ticker = setTimeout(() => {
           this.animateSelector(val === 0 ? 1 : 0, dur + (dur / 3))
+          this.ticker = null;
         }, 200);
       }
     })
@@ -155,6 +158,7 @@ export default class SelectionScreen extends Component {
         selectedItemOverview: payload.results[0].overview,
         selectedItemFirstAirDate: this.state.selectionType === 'TV' ? payload.results[0].first_air_date : payload.results[0].release_date,
         selectedItemVoteAverage: payload.results[0].vote_average,
+        showSpinner: false,
       }, () => {
         Animated.timing(
           this.showItem,
@@ -183,6 +187,13 @@ export default class SelectionScreen extends Component {
     } else {
       this.setState({ errorState: 'There is only one option in this category.' })
     }
+  }
+
+  componentWillUnmount() {
+    if (this.ticker) {
+      clearTimeout(this.ticker);
+      this.ticker = null;
+    } 
   }
 
   render() {
@@ -255,68 +266,17 @@ export default class SelectionScreen extends Component {
         )}
 
         {!showSpinner && (
-          <Animated.ScrollView style={{ opacity: this.showItem }}>
-            <Text style={{ fontFamily: theme.fancyFont, fontSize: 40, lineHeight: 40, padding: 10, marginTop: 30 }}>
-              {suggestSelectionText[Math.floor(Math.random() * suggestSelectionText.length)]}
-            </Text>
-            <Card
-              featuredTitle={selectedItemName}
-              featuredTitleStyle={{ fontSize: 25 }}
-              image={{ uri: `https://image.tmdb.org/t/p/w400${selectedItemImage}` }}
-            >
-              <Rating
-                imageSize={20}
-                readonly
-                startingValue={selectedItemVoteAverage / 2}
-                ratingCount={5}
-              />
-              <Text style={{ fontFamily: theme.bodyFont, fontSize: 20 }}>{selectedItemName}</Text>
-              <Text style={{ fontFamily: theme.bodyFont, fontSize: 10, fontStyle: 'italic' }}>
-                {selectionType === 'TV' ? 'First aired:' : 'Release date:'} {selectedItemFirstAirDate}
-              </Text>
-              <Text style={{ fontFamily: theme.bodyFont, fontSize: 14 }}>{selectedItemOverview}</Text>
-            </Card>
-            <View style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}>
-              <Button
-                titleStyle={{ fontFamily: theme.bodyFont, lineHeight: 20 }}
-                buttonStyle={{ backgroundColor: '#2b2b2b', borderRadius: 0, height: 50, width: ((Dimensions.get('window').width / 2) - 30), marginHorizontal: 15, marginVertical: 30 }}
-                icon={<Icon name='chevron-left' color='#ffffff' />}
-                title=' Back'
-                onPress={() => { navigate('Home') }}
-              />
-              <Button
-                titleStyle={{ fontFamily: theme.bodyFont, lineHeight: 20 }}
-                buttonStyle={{ backgroundColor: theme.primaryColor, borderRadius: 0, height: 50, width: ((Dimensions.get('window').width / 2) - 30), marginHorizontal: 15, marginVertical: 30 }}
-                icon={<Icon name='loop' color='#ffffff' />}
-                title=' Nah'
-                onPress={() => { this.spinAgain(randomItem) }}
-              />
-            </View>
-          </Animated.ScrollView>
-        )}
-
-        {/* LIST VIEW */}
-        {false && (
-          <Animated.View style={{ opacity: this.showList }}>
-            {
-              this.state.selectedList.map((option, idx) => {
-                return (
-                  <ListItem
-                    key={idx}
-                    underlayColor='#b285cc80'
-                    title={option}
-                    titleStyle={{ fontFamily: theme.bodyFont }}
-                    bottomDivider
-                    containerStyle={randomItem === option ? { backgroundColor: 'grey' } : {}}
-                  />
-                )
-              })
-            }
-          </Animated.View>
+          <Selection
+            randomItem={randomItem}
+            selectionType={selectionType}
+            selectedItemName={selectedItemName}
+            selectedItemImage={selectedItemImage}
+            selectedItemVoteAverage={selectedItemVoteAverage}
+            selectedItemFirstAirDate={selectedItemFirstAirDate}
+            selectedItemOverview={selectedItemOverview}
+            navigate={navigate}
+            spinAgain={this.spinAgain}
+          />
         )}
 
         {!!errorState && (

@@ -8,6 +8,7 @@ import { suggestSelectionText } from '../common/constants';
 export default class Selection extends Component {
   render() {
     const {
+      imagesBaseUrl,
       randomItem,
       selectionType,
       selectedItemName,
@@ -26,7 +27,7 @@ export default class Selection extends Component {
         <Card
           featuredTitle={selectedItemName}
           featuredTitleStyle={{ fontSize: 25 }}
-          image={{ uri: `https://image.tmdb.org/t/p/w400${selectedItemImage}` }}
+          image={{ uri: `${imagesBaseUrl}w400${selectedItemImage}` }}
         >
           <Rating
             imageSize={20}

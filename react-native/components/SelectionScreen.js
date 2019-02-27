@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Animated, Easing } from 'react-native';
 import { Text, Button, ListItem, Image, Overlay } from 'react-native-elements';
 
 import { theme } from '../theme';
+import { AppContext } from '../AppState';
 import Selection from './Selection';
 
 class Title extends Component {
@@ -266,17 +267,22 @@ export default class SelectionScreen extends Component {
         )}
 
         {!showSpinner && (
-          <Selection
-            randomItem={randomItem}
-            selectionType={selectionType}
-            selectedItemName={selectedItemName}
-            selectedItemImage={selectedItemImage}
-            selectedItemVoteAverage={selectedItemVoteAverage}
-            selectedItemFirstAirDate={selectedItemFirstAirDate}
-            selectedItemOverview={selectedItemOverview}
-            navigate={navigate}
-            spinAgain={this.spinAgain}
-          />
+          <AppContext.Consumer>
+            {(context) => (
+              <Selection
+                imagesBaseUrl={context.state.tmdbConfigImagesBaseUrl}
+                randomItem={randomItem}
+                selectionType={selectionType}
+                selectedItemName={selectedItemName}
+                selectedItemImage={selectedItemImage}
+                selectedItemVoteAverage={selectedItemVoteAverage}
+                selectedItemFirstAirDate={selectedItemFirstAirDate}
+                selectedItemOverview={selectedItemOverview}
+                navigate={navigate}
+                spinAgain={this.spinAgain}
+              />
+            )}
+          </AppContext.Consumer>
         )}
 
         {!!errorState && (

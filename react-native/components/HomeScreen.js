@@ -25,17 +25,6 @@ class Title extends Component {
 }
 
 export default class HomeScreen extends Component {
-  async componentDidMount() {
-    try {
-      const response = await fetch(`${process.env.TMDB_BASE_AND_VERSION}/configuration${process.env.TMDB_API_KEY_PARAM}`)
-      const json = await response.json()
-      // console.log('TMDB LOG:', json)
-      // TODO: set state with this config for images n stuff ^
-    } catch (err) {
-      console.warn(err)
-    }
-  }
-
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: <Title navigation={navigation} />,

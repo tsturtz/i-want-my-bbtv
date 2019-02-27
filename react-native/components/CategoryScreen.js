@@ -146,7 +146,12 @@ export default class HomeScreen extends Component {
             />
             {addOptions && addOptions.length > 0 &&
               <Fragment>
-                <Titles navigate={navigate} titles={addOptions.map((opt) => opt.name)} handleTitleSelect={this.handleAddSelected} adding />
+                <Titles
+                  navigate={navigate}
+                  titles={getParam('selectionType') === 'Movie' ? addOptions.map((opt) => opt.title) : addOptions.map((opt) => opt.name)}
+                  handleTitleSelect={this.handleAddSelected}
+                  adding
+                />
                 <Text style={{ fontFamily: theme.bodyFont, fontSize: 15, lineHeight: 30, paddingHorizontal: 15, paddingBottom: 20, color: theme.primaryColor }}>
                   (Tap items above to add)
                 </Text>

@@ -20,22 +20,70 @@ export default class Categories extends Component {
   render() {
     const { navigate } = this.props;
     const { categoriesList } = this.state;
+    let tvList = [];
+    let movieList = [];
 
     if (categoriesList) {
+      tvList = categoriesList.filter((item) => item.type === 'TV').sort((next, prev) => next.title.localeCompare(prev.title));
+      movieList = categoriesList.filter((item) => item.type === 'Movie').sort((next, prev) => next.title.localeCompare(prev.title));
       return (
         <ScrollView style={styles.container}>
+          {/* TV */}
+          <ListItem
+            disabled
+            bottomDivider
+            underlayColor='#b285cc80'
+            containerStyle={{ backgroundColor: '#f9f9f9' }}
+            titleStyle={{ fontFamily: theme.bodyFont }}
+            rightIcon={{ name: 'television-classic', type: 'material-community' }}
+            title="TV"
+          />
           {
-            categoriesList.map((item, idx) => (
+            tvList.map((item, idx) => (
               <ListItem
                 key={idx}
-                containerStyle={item.top_level_category ? { backgroundColor: '#f9f9f9' } : {}}
+                chevron
+                bottomDivider
                 underlayColor='#b285cc80'
                 titleStyle={{ fontFamily: theme.bodyFont }}
+                leftIcon={{ name: item.icon, type: item.iconType }}
+                title={item.title}
+                onPress={() => {
+                  navigate('Selection', {
+                    selectionValue: item.value,
+                    selectionTitle: item.title,
+                    selectionType: item.type,
+                  })
+                }}
+                onLongPress={() => {
+                  navigate('Category', {
+                    selectionValue: item.value,
+                    selectionTitle: item.title,
+                    selectionType: item.type,
+                  })
+                }}
+              />
+            ))
+          }
+          {/* Movies */}
+          <ListItem
+            disabled
+            bottomDivider
+            underlayColor='#b285cc80'
+            containerStyle={{ backgroundColor: '#f9f9f9' }}
+            titleStyle={{ fontFamily: theme.bodyFont }}
+            rightIcon={{ name: 'filmstrip', type: 'material-community' }}
+            title="Movies"
+          />
+          {
+            movieList.map((item, idx) => (
+              <ListItem
+                key={idx}
+                chevron
                 bottomDivider
-                rightIcon={item.top_level_category ? { name: item.icon, type: item.iconType } : null}
-                leftIcon={!item.top_level_category ? { name: item.icon, type: item.iconType } : null}
-                chevron={!item.top_level_category}
-                disabled={item.top_level_category}
+                underlayColor='#b285cc80'
+                titleStyle={{ fontFamily: theme.bodyFont }}
+                leftIcon={{ name: item.icon, type: item.iconType }}
                 title={item.title}
                 onPress={() => {
                   navigate('Selection', {
